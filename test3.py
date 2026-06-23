@@ -1,3 +1,4 @@
+# 打字测试
 import random
 import time
 from difflib import SequenceMatcher

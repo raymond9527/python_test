@@ -1,3 +1,4 @@
+# 猜数字
 import random
 result = random.randint(1, 100)
 guess = 0
