@@ -6,7 +6,7 @@
 # TODO 随机生成考题
 
 import random
-
+from book2_chapter11 import compress_quizzes
 provinces_capitals = {
     "北京市": "北京",
     "天津市": "天津",
@@ -104,3 +104,10 @@ for quiz_num in range(30):
     quiz_file.close()
     answer_file.close()
 print("35份随机考卷生成完成！")
+
+compress_or_not = input("请输入是否压缩（Y/N）：")
+if compress_or_not == "Y":
+    compress_quizzes(r"book2\book2_chapter10_testdata",
+                     r"book2\book2_chapter10_answerdata", r"book2\book2_chapter11_compress")
+else:
+    print("那好吧，再见!")

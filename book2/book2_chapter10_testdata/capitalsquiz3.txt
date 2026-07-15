@@ -6,207 +6,207 @@ Period:
 
       省会知识小测试 (Form 3)
 
-1. What is the capital of 天津市?
-A. 拉萨
-B. 成都
-C. 天津
-D. 兰州
-
-2. What is the capital of 河北省?
-A. 兰州
-B. 石家庄
-C. 北京
+1. What is the capital of 新疆维吾尔自治区?
+A. 北京
+B. 南京
+C. 拉萨
 D. 乌鲁木齐
 
-3. What is the capital of 辽宁省?
-A. 南京
-B. 沈阳
-C. 银川
-D. 合肥
+2. What is the capital of 青海省?
+A. 呼和浩特
+B. 西宁
+C. 郑州
+D. 武汉
 
-4. What is the capital of 浙江省?
-A. 兰州
-B. 杭州
-C. 上海
-D. 天津
-
-5. What is the capital of 新疆维吾尔自治区?
-A. 上海
-B. 台北
-C. 乌鲁木齐
-D. 南宁
-
-6. What is the capital of 广东省?
-A. 海口
-B. 广州
+3. What is the capital of 云南省?
+A. 香港
+B. 昆明
 C. 武汉
-D. 兰州
+D. 广州
 
-7. What is the capital of 福建省?
-A. 乌鲁木齐
-B. 福州
-C. 台北
+4. What is the capital of 甘肃省?
+A. 上海
+B. 兰州
+C. 乌鲁木齐
 D. 济南
 
-8. What is the capital of 海南省?
-A. 合肥
-B. 海口
-C. 长春
-D. 拉萨
+5. What is the capital of 吉林省?
+A. 长春
+B. 合肥
+C. 澳门
+D. 乌鲁木齐
 
-9. What is the capital of 北京市?
-A. 福州
-B. 北京
-C. 武汉
+6. What is the capital of 贵州省?
+A. 贵阳
+B. 澳门
+C. 济南
 D. 哈尔滨
 
-10. What is the capital of 香港特别行政区?
-A. 香港
-B. 南昌
-C. 天津
-D. 南宁
+7. What is the capital of 宁夏回族自治区?
+A. 乌鲁木齐
+B. 银川
+C. 武汉
+D. 上海
 
-11. What is the capital of 山东省?
+8. What is the capital of 香港特别行政区?
 A. 香港
-B. 呼和浩特
-C. 重庆
-D. 济南
+B. 澳门
+C. 海口
+D. 合肥
+
+9. What is the capital of 陕西省?
+A. 哈尔滨
+B. 南宁
+C. 西安
+D. 拉萨
+
+10. What is the capital of 广东省?
+A. 南京
+B. 济南
+C. 广州
+D. 乌鲁木齐
+
+11. What is the capital of 台湾省?
+A. 武汉
+B. 杭州
+C. 台北
+D. 呼和浩特
 
 12. What is the capital of 安徽省?
-A. 福州
-B. 上海
-C. 合肥
-D. 北京
+A. 西宁
+B. 合肥
+C. 银川
+D. 南宁
 
-13. What is the capital of 湖南省?
+13. What is the capital of 河南省?
+A. 郑州
+B. 长春
+C. 南京
+D. 澳门
+
+14. What is the capital of 澳门特别行政区?
+A. 拉萨
+B. 济南
+C. 海口
+D. 澳门
+
+15. What is the capital of 海南省?
 A. 海口
-B. 台北
-C. 贵阳
-D. 长沙
+B. 拉萨
+C. 哈尔滨
+D. 香港
 
-14. What is the capital of 宁夏回族自治区?
-A. 银川
+16. What is the capital of 西藏自治区?
+A. 重庆
 B. 台北
+C. 南昌
+D. 拉萨
+
+17. What is the capital of 黑龙江省?
+A. 沈阳
+B. 乌鲁木齐
+C. 呼和浩特
+D. 哈尔滨
+
+18. What is the capital of 河北省?
+A. 石家庄
+B. 乌鲁木齐
+C. 银川
+D. 南京
+
+19. What is the capital of 天津市?
+A. 福州
+B. 贵阳
+C. 广州
+D. 天津
+
+20. What is the capital of 四川省?
+A. 长春
+B. 乌鲁木齐
+C. 哈尔滨
+D. 成都
+
+21. What is the capital of 浙江省?
+A. 武汉
+B. 杭州
+C. 石家庄
+D. 南昌
+
+22. What is the capital of 上海市?
+A. 西安
+B. 石家庄
+C. 长沙
+D. 上海
+
+23. What is the capital of 湖北省?
+A. 拉萨
+B. 合肥
+C. 武汉
+D. 海口
+
+24. What is the capital of 辽宁省?
+A. 重庆
+B. 长春
+C. 沈阳
+D. 郑州
+
+25. What is the capital of 山西省?
+A. 香港
+B. 太原
+C. 沈阳
+D. 成都
+
+26. What is the capital of 福建省?
+A. 成都
+B. 福州
+C. 合肥
+D. 杭州
+
+27. What is the capital of 内蒙古自治区?
+A. 呼和浩特
+B. 澳门
 C. 太原
 D. 广州
 
-15. What is the capital of 青海省?
-A. 拉萨
-B. 上海
-C. 武汉
-D. 西宁
-
-16. What is the capital of 四川省?
-A. 重庆
-B. 南京
-C. 济南
-D. 成都
-
-17. What is the capital of 吉林省?
-A. 西宁
-B. 昆明
-C. 长春
-D. 杭州
-
-18. What is the capital of 湖北省?
-A. 上海
-B. 武汉
-C. 西宁
-D. 福州
-
-19. What is the capital of 江西省?
-A. 南昌
-B. 西安
-C. 天津
-D. 银川
-
-20. What is the capital of 山西省?
-A. 西宁
-B. 太原
-C. 重庆
-D. 郑州
-
-21. What is the capital of 甘肃省?
-A. 长沙
-B. 兰州
-C. 武汉
-D. 西安
-
-22. What is the capital of 内蒙古自治区?
-A. 天津
-B. 呼和浩特
-C. 海口
-D. 杭州
-
-23. What is the capital of 江苏省?
-A. 武汉
-B. 海口
-C. 哈尔滨
-D. 南京
-
-24. What is the capital of 贵州省?
-A. 贵阳
-B. 成都
-C. 长春
-D. 昆明
-
-25. What is the capital of 西藏自治区?
-A. 银川
-B. 拉萨
-C. 香港
-D. 济南
-
-26. What is the capital of 上海市?
-A. 澳门
-B. 北京
-C. 南京
-D. 上海
-
-27. What is the capital of 陕西省?
-A. 海口
-B. 西安
-C. 杭州
-D. 武汉
-
-28. What is the capital of 澳门特别行政区?
-A. 西安
+28. What is the capital of 江苏省?
+A. 南京
 B. 济南
-C. 长沙
-D. 澳门
+C. 澳门
+D. 长春
 
-29. What is the capital of 黑龙江省?
-A. 广州
-B. 长春
-C. 哈尔滨
-D. 长沙
+29. What is the capital of 江西省?
+A. 北京
+B. 济南
+C. 拉萨
+D. 南昌
 
-30. What is the capital of 云南省?
+30. What is the capital of 湖南省?
 A. 济南
-B. 福州
-C. 南京
-D. 昆明
-
-31. What is the capital of 广西壮族自治区?
-A. 杭州
-B. 南宁
-C. 天津
-D. 郑州
-
-32. What is the capital of 台湾省?
-A. 福州
 B. 乌鲁木齐
-C. 台北
+C. 长沙
 D. 哈尔滨
 
-33. What is the capital of 河南省?
-A. 成都
-B. 西宁
-C. 长春
-D. 郑州
+31. What is the capital of 山东省?
+A. 海口
+B. 北京
+C. 乌鲁木齐
+D. 济南
 
-34. What is the capital of 重庆市?
-A. 济南
-B. 太原
-C. 拉萨
-D. 重庆
+32. What is the capital of 重庆市?
+A. 杭州
+B. 石家庄
+C. 重庆
+D. 昆明
+
+33. What is the capital of 北京市?
+A. 郑州
+B. 北京
+C. 石家庄
+D. 太原
+
+34. What is the capital of 广西壮族自治区?
+A. 南昌
+B. 呼和浩特
+C. 天津
+D. 南宁
 
