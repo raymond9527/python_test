@@ -1,44 +1,62 @@
-from pypdf import PdfWriter
-from pypdf import PdfReader
-print(dir(tuple))
+import fitz
 
-# 输入、输出文件
-INPUT_PDF = "pdf_footer_remover\input.pdf"
-OUTPUT_PDF = "pdf_footer_remover\output.pdf"
 
-# 页脚高度（单位：Point）
-FOOTER_HEIGHT = 40
+def remove_pdf_footer(
+        input_pdf,
+        output_pdf,
+        footer_height=40
+):
+    """
+    删除PDF页脚
 
-reader = PdfReader(INPUT_PDF)
-writer = PdfWriter()
+    参数
+    ----------
+    input_pdf : 输入PDF
 
-for page in reader.pages:
+    output_pdf : 输出PDF
 
-    # 保持左边界不变
-    left = page.cropbox.left
+    footer_height : 页脚高度(pt)
+    """
 
-    # 保持右边界不变
-    right = page.cropbox.right
+    doc = fitz.open(input_pdf)
 
-    # 原来的上下边界
-    bottom = page.cropbox.bottom
-    top = page.cropbox.top
+    for page in doc:
 
-    # 只提高下边界（裁掉页脚）
-    page.cropbox.lower_left = (
-        left,
-        bottom + FOOTER_HEIGHT
+        width = page.rect.width
+        height = page.rect.height
+
+        # 页脚区域
+        footer_rect = fitz.Rect(
+            0,
+            height - footer_height,
+            width,
+            height
+        )
+
+        # 添加擦除标记
+        page.add_redact_annot(
+            footer_rect,
+            fill=(1, 1, 1)      # 白色填充
+        )
+
+        # 真正删除对象
+        page.apply_redactions()
+
+    doc.save(
+        output_pdf,
+        garbage=4,
+        deflate=True
     )
 
-    # 上边界保持不变
-    page.cropbox.upper_right = (
-        right,
-        top
+    doc.close()
+
+    print("处理完成！")
+
+
+if __name__ == "__main__":
+
+    remove_pdf_footer(
+        "pdf_footer_remover\input.pdf",
+        "pdf_footer_remover\output.pdf",
+        footer_height=40
     )
-
-    writer.add_page(page)
-
-with open(OUTPUT_PDF, "wb") as f:
-    writer.write(f)
-
-print("页脚删除完成！")
