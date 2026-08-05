@@ -1,0 +1,28 @@
+WordFormatter
+│
+├── main.py                    # 主程序入口
+│
+├── config.py                  # 全局参数配置
+│
+├── document_reader.py         # Word文件读取
+│
+├── style_formatter.py         # 字体格式处理(修改所有的正文为标准格式、识别小括号内容)
+│
+├── page_formatter.py          # 页面版式处理（只负责页面版式设计）
+│
+├── paragraph_formatter.py     # 段落格式处理（只处理段落格式）
+│
+├── heading_formatter.py       # 标题识别与格式处理（处理识别标题，三级标题加粗）
+│
+├── table_formatter.py         # 表格格式处理（设置表格格式）
+│
+├── page_number.py             # 页码处理
+│
+├── utils.py                   # 通用工具函数
+│
+└── output/
+    └── formatted.docx
+
+四号=14pt
+三号=16pt
+二号=22pt
