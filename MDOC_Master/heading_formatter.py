@@ -12,60 +12,66 @@ heading_formatter.py
     二级标题
     三级标题
 
-3. 支持标题正文同段
+3. 支持手工编号标题
 
-例如:
+    一、标题
+    （一）标题
+    1.标题
 
-一、总体情况。正文内容……
 
-只修改:
+4. 支持Word自动编号标题
 
-一、总体情况。
+    多级列表
 
-不影响:
 
-正文内容
+5. 同步修改:
+
+    标题正文字体
+
+    Word自动编号字体
+
 
 """
-
 
 import re
 
 from copy import deepcopy
 
 from docx import Document
-from docx.shared import Pt
+
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+
+from docx.oxml import OxmlElement
+
 from docx.oxml.ns import qn
+
+from docx.shared import Pt
 
 
 from config import (
-
-    TITLE_FONT_CN,
-    TITLE_FONT_EN,
-    TITLE_FONT_SIZE,
-    TITLE_ALIGNMENT,
-
 
     HEADING1_FONT_CN,
     HEADING1_FONT_EN,
     HEADING1_FONT_SIZE,
 
-
     HEADING2_FONT_CN,
     HEADING2_FONT_EN,
     HEADING2_FONT_SIZE,
-
 
     HEADING3_FONT_CN,
     HEADING3_FONT_EN,
     HEADING3_FONT_SIZE,
 
+    TITLE_ALIGNMENT,
+    TITLE_FONT_CN,
+    TITLE_FONT_EN,
+    TITLE_FONT_SIZE,
+
 )
 
 
 # =====================================================
-# 标题编号
+# 手工编号规则
 # =====================================================
 
 
@@ -87,14 +93,18 @@ HEADING_PATTERNS = {
 
 
 # =====================================================
-# 清除格式
+# 清除Run格式
 # =====================================================
 
 
-def clear_run_style(run):
+def clear_run_style(
+        run
+):
 
     run.bold = False
+
     run.italic = False
+
     run.underline = False
 
     run.font.strike = False
@@ -105,8 +115,9 @@ def clear_run_style(run):
 
 
 # =====================================================
-# 设置字体
+# 设置Run字体
 # =====================================================
+
 
 def set_run_font(
         run,
@@ -116,11 +127,19 @@ def set_run_font(
         bold=False
 ):
 
-    clear_run_style(run)
+    clear_run_style(
+        run
+    )
 
-    rPr = run._element.get_or_add_rPr()
+    rPr = (
+        run._element
+        .get_or_add_rPr()
+    )
 
-    rFonts = rPr.get_or_add_rFonts()
+    rFonts = (
+        rPr
+        .get_or_add_rFonts()
+    )
 
     rFonts.set(
         qn("w:eastAsia"),
@@ -139,18 +158,251 @@ def set_run_font(
 
     run.font.name = en
 
-    run.font.size = Pt(size)
+    run.font.size = Pt(
+        size
+    )
 
-    # 新增
     run.bold = bold
+
+
+# =====================================================
+# 获取Word自动编号等级
+# =====================================================
+
+
+def get_word_number_level(
+        paragraph
+):
+    """
+    获取Word自动编号级别
+
+
+    返回:
+
+    1 一级
+
+    2 二级
+
+    3 三级
+
+    """
+
+    pPr = (
+        paragraph
+        ._p
+        .pPr
+    )
+
+    if pPr is None:
+
+        return None
+
+    numPr = pPr.find(
+        qn("w:numPr")
+    )
+
+    if numPr is None:
+
+        return None
+
+    ilvl = numPr.find(
+        qn("w:ilvl")
+    )
+
+    if ilvl is None:
+
+        return None
+
+    value = ilvl.get(
+        qn("w:val")
+    )
+
+    if value is None:
+
+        return None
+
+    try:
+
+        level = int(value)
+
+    except ValueError:
+
+        return None
+
+    if level > 2:
+
+        return None
+
+    return level + 1
+
+
+# =====================================================
+# 修改Word编号字体
+# =====================================================
+
+
+def set_numbering_level_font(
+        lvl,
+        cn,
+        en,
+        size
+):
+    """
+    修改 numbering.xml 中编号字体
+    """
+
+    rPr = lvl.find(
+        qn("w:rPr")
+    )
+
+    if rPr is None:
+
+        rPr = OxmlElement(
+            "w:rPr"
+        )
+
+        lvl.append(
+            rPr
+        )
+
+    rFonts = rPr.find(
+        qn("w:rFonts")
+    )
+
+    if rFonts is None:
+
+        rFonts = OxmlElement(
+            "w:rFonts"
+        )
+
+        rPr.append(
+            rFonts
+        )
+
+    rFonts.set(
+        qn("w:eastAsia"),
+        cn
+    )
+
+    rFonts.set(
+        qn("w:ascii"),
+        en
+    )
+
+    rFonts.set(
+        qn("w:hAnsi"),
+        en
+    )
+
+    sz = rPr.find(
+        qn("w:sz")
+    )
+
+    if sz is None:
+
+        sz = OxmlElement(
+            "w:sz"
+        )
+
+        rPr.append(
+            sz
+        )
+
+    sz.set(
+        qn("w:val"),
+        str(
+            int(size * 2)
+        )
+    )
+
+
+def format_word_numbering_font(
+        document
+):
+    """
+    同步修改Word自动编号字体
+    """
+
+    numbering_part = (
+        document.part
+        .numbering_part
+    )
+
+    root = numbering_part.element
+
+    for abstract_num in root.findall(
+            qn("w:abstractNum")
+    ):
+
+        for lvl in abstract_num.findall(
+                qn("w:lvl")
+        ):
+
+            ilvl = lvl.get(
+                qn("w:ilvl")
+            )
+
+            if ilvl == "0":
+
+                set_numbering_level_font(
+                    lvl,
+                    HEADING1_FONT_CN,
+                    HEADING1_FONT_EN,
+                    HEADING1_FONT_SIZE
+                )
+
+            elif ilvl == "1":
+
+                set_numbering_level_font(
+                    lvl,
+                    HEADING2_FONT_CN,
+                    HEADING2_FONT_EN,
+                    HEADING2_FONT_SIZE
+                )
+
+            elif ilvl == "2":
+
+                set_numbering_level_font(
+                    lvl,
+                    HEADING3_FONT_CN,
+                    HEADING3_FONT_EN,
+                    HEADING3_FONT_SIZE
+                )
 # =====================================================
 # 判断标题等级
 # =====================================================
 
 
-def detect_heading_level(text):
+def detect_heading_level(
+        paragraph
+):
+    """
+    判断标题等级
 
-    text = text.strip()
+    支持:
+
+    1. 手工编号
+
+    一、标题
+
+    （一）标题
+
+    1.标题
+
+
+    2. Word自动编号
+
+    """
+
+    text = paragraph.text.strip()
+
+    if not text:
+
+        return None
+
+    # ---------------------------------
+    # 优先判断手工编号
+    # ---------------------------------
 
     for level, pattern in HEADING_PATTERNS.items():
 
@@ -161,7 +413,13 @@ def detect_heading_level(text):
 
             return level
 
-    return None
+    # ---------------------------------
+    # 判断Word自动编号
+    # ---------------------------------
+
+    return get_word_number_level(
+        paragraph
+    )
 
 
 # =====================================================
@@ -174,23 +432,19 @@ def get_heading_end(
         level
 ):
     """
-    获取标题结束位置
+    获取标题文字结束位置
 
     支持:
 
     一、总体情况。正文
 
-    （一）加强组织领导。正文
+    （一）组织领导。正文
 
-    1.建立任务机制。正文
+    1.任务要求。正文
 
     """
 
-    # 一级、二级、三级统一处理
-
     if level == 3:
-
-        # 跳过编号中的点
 
         match = re.search(
             r"\d+[、．.](.+?[。．.])",
@@ -210,8 +464,9 @@ def get_heading_end(
 
     return len(text)
 
+
 # =====================================================
-# XML方式拆分Run
+# 拆分Run
 # =====================================================
 
 
@@ -220,16 +475,17 @@ def split_run(
         index
 ):
     """
-    将一个Run拆分为两个Run
+    将标题和正文拆开
+
 
     原:
 
-    标题正文
+    一、标题。正文
 
 
     后:
 
-    标题
+    一、标题。
     正文
 
     """
@@ -246,15 +502,13 @@ def split_run(
         run._element
     )
 
-    # 删除原文字节点
-
-    for child in new_element:
+    for child in list(new_element):
 
         if child.tag == qn("w:t"):
 
-            new_element.remove(child)
-
-    from docx.oxml import OxmlElement
+            new_element.remove(
+                child
+            )
 
     text_element = OxmlElement(
         "w:t"
@@ -285,27 +539,38 @@ def format_heading_runs(
     if level == 1:
 
         cn = HEADING1_FONT_CN
+
         en = HEADING1_FONT_EN
+
         size = HEADING1_FONT_SIZE
+
         bold = False
 
     elif level == 2:
 
         cn = HEADING2_FONT_CN
+
         en = HEADING2_FONT_EN
+
         size = HEADING2_FONT_SIZE
+
         bold = False
 
     else:
 
         cn = HEADING3_FONT_CN
+
         en = HEADING3_FONT_EN
+
         size = HEADING3_FONT_SIZE
+
         bold = True
 
     remain = length
 
-    for run in list(paragraph.runs):
+    for run in list(
+            paragraph.runs
+    ):
 
         if remain <= 0:
 
@@ -350,7 +615,7 @@ def format_heading_runs(
 
 
 # =====================================================
-# 判断主标题
+# 判断文章主标题
 # =====================================================
 
 
@@ -364,11 +629,11 @@ def is_document_title(
 
         return False
 
-    if detect_heading_level(text):
+    if detect_heading_level(
+            paragraph
+    ):
 
         return False
-
-    # 防止正文误判
 
     if len(text) > 50:
 
@@ -378,11 +643,13 @@ def is_document_title(
 
 
 # =====================================================
-# 设置主标题
+# 设置文章主标题
 # =====================================================
 
 
-def format_title(paragraph):
+def format_title(
+        paragraph
+):
 
     for run in paragraph.runs:
 
@@ -390,10 +657,10 @@ def format_title(paragraph):
             run,
             TITLE_FONT_CN,
             TITLE_FONT_EN,
-            TITLE_FONT_SIZE,
+            TITLE_FONT_SIZE
         )
+
     paragraph.paragraph_format.line_spacing = 1.5
-    # 修改为1.5倍行距
 
     if TITLE_ALIGNMENT == "center":
 
@@ -407,7 +674,22 @@ def format_title(paragraph):
 # =====================================================
 
 
-def format_headings(document):
+def format_headings(
+        document
+):
+    """
+    标题格式化入口
+
+    """
+
+    # ---------------------------------
+    # 第一步:
+    # 修改Word自动编号字体
+    # ---------------------------------
+
+    format_word_numbering_font(
+        document
+    )
 
     title_done = False
 
@@ -419,7 +701,17 @@ def format_headings(document):
 
             continue
 
-        if not title_done and is_document_title(paragraph):
+        # -----------------------------
+        # 判断文章标题
+        # -----------------------------
+
+        if (
+            not title_done
+            and
+            is_document_title(
+                paragraph
+            )
+        ):
 
             format_title(
                 paragraph
@@ -429,7 +721,13 @@ def format_headings(document):
 
             continue
 
-        level = detect_heading_level(text)
+        # -----------------------------
+        # 判断章节标题
+        # -----------------------------
+
+        level = detect_heading_level(
+            paragraph
+        )
 
         if level:
 
@@ -450,7 +748,6 @@ def format_headings(document):
 # =====================================================
 # 测试
 # =====================================================
-
 if __name__ == "__main__":
 
     from config import INPUT_FILE

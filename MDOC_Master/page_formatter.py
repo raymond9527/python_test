@@ -33,34 +33,23 @@ python-docx
 
 
 from docx import Document
-
+from docx.enum.section import WD_ORIENT
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from docx.shared import Cm
 
-from docx.enum.section import WD_ORIENT
-
-from docx.oxml import OxmlElement
-
-from docx.oxml.ns import qn
-
-
 from config import (
-
-    PAGE_WIDTH,
-    PAGE_HEIGHT,
-
-    TOP_MARGIN,
     BOTTOM_MARGIN,
-    LEFT_MARGIN,
-    RIGHT_MARGIN,
-
-    HEADER_DISTANCE,
     FOOTER_DISTANCE,
-
+    HEADER_DISTANCE,
+    LEFT_MARGIN,
+    PAGE_HEIGHT,
+    PAGE_WIDTH,
+    REMOVE_EXISTING_FOOTER,
     REMOVE_EXISTING_HEADER,
-    REMOVE_EXISTING_FOOTER
-
+    RIGHT_MARGIN,
+    TOP_MARGIN,
 )
-
 
 # =====================================================
 # 开启奇偶页

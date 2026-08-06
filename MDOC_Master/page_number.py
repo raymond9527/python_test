@@ -23,30 +23,17 @@ Word页码处理模块
 
 
 from docx import Document
-
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from docx.shared import Pt
 
-from docx.enum.text import (
-    WD_ALIGN_PARAGRAPH
-)
-
-from docx.oxml import OxmlElement
-
-from docx.oxml.ns import qn
-
-
 from config import (
-
+    PAGE_NUMBER_ALIGNMENT,
     PAGE_NUMBER_FONT,
-
-    PAGE_NUMBER_SIZE,
-
     PAGE_NUMBER_FORMAT,
-
-    PAGE_NUMBER_ALIGNMENT
-
+    PAGE_NUMBER_SIZE,
 )
-
 
 # =====================================================
 # 设置页码字体

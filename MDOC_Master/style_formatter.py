@@ -35,26 +35,12 @@ python-docx
 
 import re
 
-
 from docx import Document
-
+from docx.oxml.ns import qn
+from docx.shared import Pt
 from docx.text.run import Run
 
-from docx.shared import Pt
-
-from docx.oxml.ns import qn
-
-
-from config import (
-
-    BODY_FONT_CN,
-
-    BODY_FONT_EN,
-
-    BODY_FONT_SIZE
-
-)
-
+from config import BODY_FONT_CN, BODY_FONT_EN, BODY_FONT_SIZE
 
 # =====================================================
 # 括号字体配置

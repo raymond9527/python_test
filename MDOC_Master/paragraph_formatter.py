@@ -39,30 +39,10 @@ python-docx
 
 
 from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
+from docx.shared import Cm, Pt
 
-from docx.shared import (
-    Pt,
-    Cm
-)
-
-from docx.enum.text import (
-    WD_ALIGN_PARAGRAPH,
-    WD_LINE_SPACING
-)
-
-
-from config import (
-
-    FIRST_LINE_INDENT,
-
-    LINE_SPACING,
-
-    SPACE_BEFORE,
-
-    SPACE_AFTER
-
-)
-
+from config import FIRST_LINE_INDENT, LINE_SPACING, SPACE_AFTER, SPACE_BEFORE
 
 # =====================================================
 # 设置正文段落格式

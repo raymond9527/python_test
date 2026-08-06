@@ -1,27 +1,14 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 from document_reader import load_document, save_document
-
-from style_formatter import format_document_style
-
-from page_formatter import format_page
-
-from paragraph_formatter import format_paragraphs
-
 from heading_formatter import format_headings
-
-from table_formatter import format_tables
-
+from page_formatter import format_page
 from page_number import add_page_number
-
-from utils import (
-    create_directory,
-    backup_file,
-    write_log,
-    log_exception
-)
-
+from paragraph_formatter import format_paragraphs
+from style_formatter import format_document_style
+from table_formatter import format_tables
+from utils import backup_file, create_directory, log_exception, write_log
 
 # =====================================================
 # 路径配置

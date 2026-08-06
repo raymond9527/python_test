@@ -28,35 +28,20 @@ table_formatter.py
 """
 
 
+from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT, WD_TABLE_ALIGNMENT
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
 from docx.shared import Pt
 
-from docx.enum.text import (
-    WD_ALIGN_PARAGRAPH
-)
-
-from docx.enum.table import (
-    WD_TABLE_ALIGNMENT,
-    WD_CELL_VERTICAL_ALIGNMENT
-)
-
-from docx.oxml import OxmlElement
-
-from docx.oxml.ns import qn
-
-
 from config import (
-
     BODY_FONT_CN,
     BODY_FONT_EN,
     BODY_FONT_SIZE,
-
-
     HEADING1_FONT_CN,
     HEADING1_FONT_EN,
     HEADING1_FONT_SIZE,
-
 )
-
 
 # =====================================================
 # 清除表格原始格式
