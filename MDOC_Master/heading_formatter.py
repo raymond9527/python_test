@@ -34,41 +34,30 @@ heading_formatter.py
 """
 
 import re
-
 from copy import deepcopy
 
-from docx import Document
-
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-
-from docx.oxml import OxmlElement
-
-from docx.oxml.ns import qn
-
-from docx.shared import Pt
-
-
 from config import (
-
+    HEADING1_ALIGNMENT,
     HEADING1_FONT_CN,
     HEADING1_FONT_EN,
     HEADING1_FONT_SIZE,
-
     HEADING2_FONT_CN,
     HEADING2_FONT_EN,
     HEADING2_FONT_SIZE,
-
+    HEADING3_ALIGNMENT,
     HEADING3_FONT_CN,
     HEADING3_FONT_EN,
     HEADING3_FONT_SIZE,
-
     TITLE_ALIGNMENT,
     TITLE_FONT_CN,
     TITLE_FONT_EN,
     TITLE_FONT_SIZE,
-
 )
-
+from docx import Document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.shared import Pt
 
 # =====================================================
 # 手工编号规则
@@ -113,6 +102,43 @@ def clear_run_style(
 
     run.font.color.rgb = None
 
+    # 清除主题字体引用
+    # 否则残留的主题字体
+    # 会干扰后续显式字体设置
+
+    rPr = run._element.find(
+        qn("w:rPr")
+    )
+
+    if rPr is not None:
+
+        rFonts = rPr.find(
+            qn("w:rFonts")
+        )
+
+        if rFonts is not None:
+
+            for attr in (
+                qn("w:asciiTheme"),
+                qn("w:eastAsiaTheme"),
+                qn("w:hAnsiTheme"),
+                qn("w:cstheme"),
+            ):
+
+                if attr in rFonts.attrib:
+
+                    del rFonts.attrib[attr]
+
+        # 清除字符样式引用
+
+        rStyle = rPr.find(
+            qn("w:rStyle")
+        )
+
+        if rStyle is not None:
+
+            rPr.remove(rStyle)
+
 
 # =====================================================
 # 设置Run字体
@@ -153,6 +179,11 @@ def set_run_font(
 
     rFonts.set(
         qn("w:hAnsi"),
+        en
+    )
+
+    rFonts.set(
+        qn("w:cs"),
         en
     )
 
@@ -546,6 +577,10 @@ def format_heading_runs(
 
         bold = False
 
+        alignment = HEADING1_ALIGNMENT
+
+        first_line_indent = None
+
     elif level == 2:
 
         cn = HEADING2_FONT_CN
@@ -556,6 +591,13 @@ def format_heading_runs(
 
         bold = False
 
+        # 二级标题不改段落格式
+        # 仅改字体，保留正文的缩进和对齐
+
+        alignment = None
+
+        first_line_indent = None
+
     else:
 
         cn = HEADING3_FONT_CN
@@ -565,6 +607,54 @@ def format_heading_runs(
         size = HEADING3_FONT_SIZE
 
         bold = True
+
+        alignment = HEADING3_ALIGNMENT
+
+        # 三级标题保留正文首行缩进
+        # 因为三级标题（如"1.xxx"）与正文混排
+        first_line_indent = None
+
+    # ---------------------------------
+    # 段落级格式
+    # ---------------------------------
+
+    # 清除一级标题的首行缩进
+    # （format_paragraphs 先执行时会错误设置）
+
+    if first_line_indent is not None:
+
+        paragraph.paragraph_format.first_line_indent = (
+            first_line_indent
+        )
+
+    # 标题对齐方式
+
+    if alignment is not None:
+
+        alignment_map = {
+
+            "center":
+                WD_ALIGN_PARAGRAPH.CENTER,
+
+            "left":
+                WD_ALIGN_PARAGRAPH.LEFT,
+
+            "right":
+                WD_ALIGN_PARAGRAPH.RIGHT,
+
+            "justify":
+                WD_ALIGN_PARAGRAPH.JUSTIFY,
+
+        }
+
+        paragraph.alignment = alignment_map.get(
+            alignment,
+            WD_ALIGN_PARAGRAPH.LEFT
+        )
+
+    # ---------------------------------
+    # Run级格式
+    # ---------------------------------
 
     remain = length
 
@@ -659,6 +749,12 @@ def format_title(
             TITLE_FONT_EN,
             TITLE_FONT_SIZE
         )
+
+    # 清除首行缩进（标题不缩进）
+
+    paragraph.paragraph_format.first_line_indent = None
+
+    # 固定行距
 
     paragraph.paragraph_format.line_spacing = 1.5
 

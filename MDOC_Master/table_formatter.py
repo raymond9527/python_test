@@ -181,6 +181,29 @@ def set_run_font(
         .get_or_add_rFonts()
     )
 
+    # 清除主题字体引用
+
+    for attr in (
+        qn("w:asciiTheme"),
+        qn("w:eastAsiaTheme"),
+        qn("w:hAnsiTheme"),
+        qn("w:cstheme"),
+    ):
+
+        if attr in rFonts.attrib:
+
+            del rFonts.attrib[attr]
+
+    # 清除字符样式引用
+
+    rStyle = rPr.find(
+        qn("w:rStyle")
+    )
+
+    if rStyle is not None:
+
+        rPr.remove(rStyle)
+
     rFonts.set(
         qn("w:eastAsia"),
         cn
@@ -193,6 +216,11 @@ def set_run_font(
 
     rFonts.set(
         qn("w:hAnsi"),
+        en
+    )
+
+    rFonts.set(
+        qn("w:cs"),
         en
     )
 

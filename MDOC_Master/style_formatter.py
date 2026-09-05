@@ -83,6 +83,15 @@ BRACKET_PATTERN = re.compile(
 def clear_run_format(
         run: Run
 ):
+    """
+    清除字符特殊格式
+
+    包括:
+        粗体/斜体/下划线/删除线
+        上下标/颜色/高亮
+        主题字体引用
+        字符样式引用
+    """
 
     run.bold = False
 
@@ -101,6 +110,45 @@ def clear_run_format(
     run.font.color.rgb = None
 
     run.font.highlight_color = None
+
+    # 清除主题字体引用
+    # 否则残留的 w:asciiTheme 等
+    # 会干扰后续显式字体设置
+
+    rPr = run._element.find(
+        qn("w:rPr")
+    )
+
+    if rPr is not None:
+
+        rFonts = rPr.find(
+            qn("w:rFonts")
+        )
+
+        if rFonts is not None:
+
+            for attr in (
+                qn("w:asciiTheme"),
+                qn("w:eastAsiaTheme"),
+                qn("w:hAnsiTheme"),
+                qn("w:cstheme"),
+            ):
+
+                if attr in rFonts.attrib:
+
+                    del rFonts.attrib[attr]
+
+        # 清除字符样式引用
+        # 否则样式中定义的字体
+        # 会干扰显式字体设置
+
+        rStyle = rPr.find(
+            qn("w:rStyle")
+        )
+
+        if rStyle is not None:
+
+            rPr.remove(rStyle)
 
 
 # =====================================================
@@ -138,6 +186,11 @@ def set_run_font(
 
     rFonts.set(
         qn("w:hAnsi"),
+        BODY_FONT_EN
+    )
+
+    rFonts.set(
+        qn("w:cs"),
         BODY_FONT_EN
     )
 

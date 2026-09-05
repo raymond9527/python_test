@@ -153,11 +153,6 @@ def add_page_field(
         "begin"
     )
 
-    fld_begin.set(
-        qn("w:dirty"),
-        "true"
-    )
-
     run_begin._r.append(
         fld_begin
     )
